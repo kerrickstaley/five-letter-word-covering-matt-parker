@@ -43,6 +43,7 @@ int main() {
     }
 
     vector<bool> two_words(1 << 26);
+    vector<bool> two_words_small(1 << 13);
     for (int i = 0; i < words.size(); i++) {
         for (int j = i + 1; j < words.size(); j++) {
             if (words[i] & words[j]) {
@@ -54,7 +55,9 @@ int main() {
                 if (comb & (1 << k)) {
                     continue;
                 }
-                two_words[comb | (1 << k)] = true;
+                int comb_plus = comb | (1 << k);
+                two_words[comb_plus] = true;
+                two_words_small[comb_plus >> 13 | comb_plus & (1 << 13) - 1] = true;
             }
         }
     }
@@ -70,7 +73,7 @@ int main() {
                 }
                 int comb = words[i] | words[j] | words[k];
                 int rest = ((1 << 26) - 1) - comb;
-                if (two_words[rest]) {
+                if (two_words_small[rest >> 13 | rest & (1 << 13) - 1] && two_words[rest]) {
                     for (int l = k + 1; l < words.size(); l++) {
                         if (words[l] & ~rest) {
                             continue;
