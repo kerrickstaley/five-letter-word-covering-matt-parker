@@ -71,7 +71,7 @@ int main() {
                 int comb = words[i] | words[j] | words[k];
                 int rest = ((1 << 26) - 1) - comb;
                 if (two_words[rest]) {
-                    for (int l = 0; l < words.size(); l++) {
+                    for (int l = k + 1; l < words.size(); l++) {
                         if (words[l] & ~rest) {
                             continue;
                         }
