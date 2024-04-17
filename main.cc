@@ -5,19 +5,6 @@
 
 using namespace std;
 
-vector<string> read_words() {
-    std::ifstream inf("words.txt");
-    std::string word;
-    vector<string> ret;
-    while (!inf.eof()) {
-        inf >> word;
-        if (word.size() == 5) {
-            ret.push_back(word);
-        }
-    }
-    return ret;
-}
-
 int popcount(int x) {
     int ret = 0;
     while (x != 0) {
@@ -35,15 +22,24 @@ int to_bits(const string& word) {
     return ret;
 }
 
+vector<string> read_words() {
+    std::ifstream inf("words.txt");
+    std::string word;
+    vector<string> ret;
+    while (!inf.eof()) {
+        inf >> word;
+        if (word.size() == 5 && popcount(to_bits(word)) == 5) {
+            ret.push_back(word);
+        }
+    }
+    return ret;
+}
+
 int main() {
     const auto word_strs = read_words();
     vector<int> words;
     for (const auto& word_str : word_strs) {
-        int b = to_bits(word_str);
-        if (popcount(b) != 5) {
-            continue;
-        }
-        words.push_back(b);
+        words.push_back(to_bits(word_str));
     }
 
     vector<bool> two_words(1 << 26);
