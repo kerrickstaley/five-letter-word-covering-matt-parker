@@ -25,11 +25,14 @@ int to_bits(const string& word) {
 vector<string> read_words() {
     std::ifstream inf("words.txt");
     std::string word;
+    vector<int> words_seen(1 << 26);
     vector<string> ret;
     while (!inf.eof()) {
         inf >> word;
-        if (word.size() == 5 && popcount(to_bits(word)) == 5) {
+        int word_bits = to_bits(word);
+        if (word.size() == 5 && popcount(word_bits) == 5 && !words_seen[word_bits]) {
             ret.push_back(word);
+            words_seen[word_bits] = true;
         }
     }
     return ret;
