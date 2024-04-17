@@ -85,6 +85,5 @@ int main() {
                 }
             }
         }
-        cerr << "finished outer loop " << i << " of " << words.size() << '\n';
     }
 }
